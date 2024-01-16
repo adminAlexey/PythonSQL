@@ -1,0 +1,23 @@
+https://sqliteonline.com/
+
+CREATE TABLE IF NOT EXISTS transfers ("from" INTEGER NOT NULL, "to" INTEGER NOT NULL, amount INTEGER NOT NULL, tdate TEXT NOT NULL);
+
+DELETE FROM transfers;
+
+INSERT INTO transfers ("from", "to", amount, tdate) VALUES (1, 2, 500, date('2023-02-23'));
+INSERT INTO transfers ("from", "to", amount, tdate) VALUES (2, 3, 300, date('2023-03-01'));
+INSERT INTO transfers ("from", "to", amount, tdate) VALUES (3, 1, 200, date('2023-03-05'));
+INSERT INTO transfers ("from", "to", amount, tdate) VALUES (1, 3, 400, date('2023-04-05'));
+
+SELECT DISTINCT * from(
+SELECT "from" AS acc
+from transfers
+UNION ALL
+SELECT "to" 
+from transfers
+ORDER By "from"),
+(SELECT tdate AS dt_from
+ from transfers
+ WHERE "from" = 1
+ Or "to" = 1
+) ORDER BY acc;
